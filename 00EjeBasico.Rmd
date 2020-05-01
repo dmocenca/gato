@@ -1,0 +1,498 @@
+---
+title: "Operaciones básicas  y números"
+author: "Dr. Daniel Mocencahua Mora"
+date: "21/4/2020"
+output:
+  html_document:
+    bibliography: bibliography.bib
+    code_folding: show
+    csl: apa
+    highlight: kate
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      smooth_scroll: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+  word_document:
+    toc: yes
+    toc_depth: '2'
+
+---
+
+
+# Operaciones
+
+**Aritméticas**: se pueden usar operaciones con vectores.
+
+**Lógicas**: se evalúan de izquierda a dercha, examinando el primer elemento de cada vector.
+
+El vector es el objeto más simple en R. 
+
+**Operaciones con un vector**: Seleccionar elementos de un vector; manipular valores perdidos; ordenar vectores.
+
+Existen operaciones con conjuntos, se pueden generar secuencias determinísticas. Generar secuencuas aleatorias con funciones.
+
+
+# Funciones básicas
+
+## Función ls()
+Al escribir el nombre de un objeto, regresa su contenido.
+
+## Attach
+Si un objeto ya está en la carpeta de trabajo se puede cargar en el programa en uso con attach(<objeto>). 
+
+
+# Objetos
+
+**character**  cadenas de caracteres.
+** numeric** cualquier número. _integer_  _complex_
+** logical**
+
+#Números en R
+Los números son objetos de tipo numérico (de punto flotante de doble precisión).
+
+El entero usa el sufijo L después del núnmero.
+
+**NaN** Not a number (indeterminado 0/0)
+**inf** Infinito ()
+
+## Vector
+El vector solo puede contener objetos de la misma clase. Función vector()
+**Lista** vector de objetos con distintas clases.
+
+
+
+# Atributos
+
+Names, dinames 
+Dimensions (matrices, arreglos)
+Class
+length
+Los definidos por el usuario
+
+**attributes()**
+
+
+# Entrada
+
+<-  Símbolo de asignación
+
+```{r}
+x<-1:100
+x
+```
+
+Con c() se generan vectores o con vector()
+
+```{r}
+x<-vector("numeric", length=10)
+x
+```
+
+
+## Coerción
+
+```{r}
+y<-c(1.7,"a")
+z<-c(TRUE,2)
+a<-c("a",TRUE)
+```
+
+## Coerción explícita
+funciones as.*
+
+as.numeric()
+as.logical()
+as.character()
+as.integer()
+
+```{r}
+x<-1:10
+class(x)
+a<-as.numeric(x)
+b<-as.logical(x)
+c<-as.character(x)
+d<-as.integer(x)
+class(a)
+class(b)
+class(c)
+class(d)
+a
+b
+c
+d
+
+```
+NA nota available, valor faltante
+
+```{r}
+x<-c("h","j")
+as.numeric(x)
+
+```
+
+# Matrices
+
+Las matrices son un tipo de vector particular. No son más que un vector con un atributo especial, llamado dimensión. La dimensión nos dice el número de renglones y el número de columnas que vamos a tener en una matriz. 
+ Un hecho que es importante a tener en cuenta con las matrices nr, es que éstas se van rellenando columna a columna, de izquierda a derecha. Contrario a cómo se rellenan los arreglos por ejemplo en C. Que generalmente se rellenan de renglón en renglón de izquierda a derecha.
+
+```{r}
+m<- matrix(1:6, nrow=2,ncol=3)
+m
+attributes(m)
+dim(m)
+class(dim(m))
+```
+
+modificando un vector para hacerlo matriz
+```{r}
+m<-1:10
+m
+```
+
+```{r}
+dim(m)<-c(2,5)
+m
+
+```
+
+cbin() pega vectores columna para hacerlos matriz
+rbind() pega vectores renglón
+
+```{r}
+x<-5:8
+y<-12:15
+cbind(x,y)
+```
+```{r}
+rbind(x,y)
+```
+
+Distintos
+```{r}
+z<-16:25
+z
+cbind(x,z)
+```
+
+
+# Reglas de precendencia y operaciones vectoriales
+
+2+3*4/5
+```{r}
+2+3*4/5
+```
+
+## Precedencia en R
+
+En orden de iportancia de mayor a menor
+
+-LLamadas a funciones y expresiones agrupadas
+-Las operaciones de indexado y búsqueda. 
+-Las aritméticas
+- las de comparación. 
+-Las fórmulas
+-las de asignación
+- las de ayuda. 
+
+En ayuda de R
+?base:Sintax
+```{r}
+?base::Sintax
+?Sintax
+```
+
+:: :::	access variables in a namespace
+$ @	component / slot extraction
+[ [[	indexing
+^	exponentiation (right to left)
+- +	unary minus and plus
+:	sequence operator
+%any%	special operators (including %% and %/%)
+* /	multiply, divide
++ -	(binary) add, subtract
+< > <= >= == !=	ordering and comparison
+!	negation
+& &&	and
+| ||	or
+~	as in formulae
+-> ->>	rightwards assignment
+<- <<-	assignment (right to left)
+=	assignment (right to left)
+?	help (unary and binary)
+
+
+## Operaciones vectoriales
+
+Se dan entrada por entrada:
+```{r}
+x<-7:10
+y<-9:12
+x+y
+x>8
+y==11
+x*y
+x/y
+```
+
+Igualmente se pueden hacer opreaciones vectoriales con matrices
+```{r}
+x<-matrix(1:16,4,4)
+y<-matrix(rep(5,16),4,4)
+x
+y
+x+y
+```
+
+
+## Multiplicación matricial
+A%%B
+```{r}
+x%%y
+```
+
+
+# Manejo de fechas y tiempo
+
+Tipo POSIXct: - 1970 +
+Class "POSIXct" represents the (signed) number of seconds since the beginning of 1970 (in the UTC time zone) as a numeric vector.
+
+Tipo POSIXlt 
+Class "POSIXlt" is a named list of vectors representing
+
+sec
+0–61: seconds.
+
+min
+0–59: minutes.
+
+hour
+0–23: hours.
+
+mday
+1–31: day of the month
+
+mon
+0–11: months after the first of the year.
+
+year
+years since 1900.
+
+wday
+0–6 day of the week, starting on Sunday.
+
+yday
+0–365: day of the year.
+
+isdst
+Daylight Saving Time flag. Positive if in force, zero if not, negative if unknown.
+
+zone
+(Optional.) The abbreviation for the time zone in force at that time: "" if unknown (but "" might also be used for UTC).
+
+gmtoff
+(Optional.) The offset in seconds from GMT: positive values are East of the meridian. Usually NA if unknown, but 0 could mean unknown.
+
+## Tiempo actual
+Sys.time()
+
+```{r}
+t<-Sys.time()
+t
+```
+
+```{r}
+l<-as.POSIXlt(t)
+l
+typeof(l)
+```
+
+
+```{r}
+names(l)
+```
+
+
+```{r}
+t<-Sys.time()
+cat(t,"\n")
+```
+
+```{r}
+tiempo<-strftime(t,"%Y-%m-%d %H:%M:%S")
+typeof(tiempo)
+
+tiempo
+```
+
+```{r}
+mi_fecha<-c("2014-01-23 14:28:21")
+typeof(mi_fecha)
+
+```
+```{r}
+my_date<-strptime(mi_fecha,"%Y-%m_$d %H:%M:%S")
+my_date
+
+typeof(my_date)
+class(my_date)
+```
+
+```{r}
+mi_fecha1<-c("2014-01-23 14:28:21")
+my_date<-strptime(mi_fecha, "%Y-%m-%d %H:%M:%S")
+my_date2<-Sys.time()
+my_date2-my_date
+
+```
+
+Date
+
+```{r}
+fechas<-c("1 jan 2012", "1 jan 2013", "1 jan 2014")
+fechas_Date<-as.Date(fechas, "%d %b %Y")
+class(fechas_Date)
+```
+
+origin  fecha de origen
+
+```{r}
+cumple<-as.Date(0,origin="1967-02-21")
+hoy<-Sys.Date()
+hoy-cumple
+
+```
+
+format
+
+```{r}
+now<-Sys.time()
+now
+
+format(now,"%H:%M")
+
+```
+
+Comparaciones
+```{r}
+diff<-as.difftime("00:30:00", "%H:%M:S", units="hour")
+ahora<-Sys.time()
+alrato<-now+diff
+ahora
+alrato
+```
+
+```{r}
+ahora<alrato
+```
+
+
+```{r}
+alrato<ahora
+```
+
+
+# Listas
+
+Son vectores con distintos tipos de datos.
+
+```{r}
+x<-list(1,"a", TRUE, 1+8i)
+x
+```
+
+## Factores
+ 
+ Tipo esepcial de vectores
+ 
+ Los factores son un tipo especial de vectores, estos nos sirven para representar datos categóricos.
+
+Puede haber de tipo ordenado o sin orden. Uno puede pensar en ellos como si fuera un vector de enteros, donde cada entero está asignado a una etiqueta en particular. Podemos generar un vector de factores utilizando la función factor().
+```{r}
+x<-factor(c("yes", "yes", "no"))
+x
+```
+función table()
+```{r}
+table(x)
+```
+
+orden de los niveles con level
+```{r}
+x<-factor(c("NO", "NO", "SI"),level=c("SI","NO" ))
+x
+```
+
+## Valores faltantes
+
+NA "Not available"
+NaN "not a number"
+
+```{r}
+x<-c(5,6,NA,9,10)
+```
+
+
+```{r}
+is.na(x)
+```
+
+
+```{r}
+is.nan(x)
+```
+```{r}
+x<-c(5,6,NA,NaN,9,10)
+is.na(x)
+```
+
+NaN es NA pero NA no es NaN
+
+# Dataframes
+
+Los dataframes se representan en R como una lista muy particular, donde cada uno de los elementos de la lista tienen el mismo tamaño. Cada uno de estos elementos se puede ver como una columna, y la longitud de cada elemento es el número de renglones que se tiene. La forma tabular de los dataframes les puede recordar una matriz, pero recordemos que la matriz es un tipo particular de vector. Es decir, que tiene la limitante que todos los elementos de la matriz tienen que ser del mismo tipo o clase. Mientras que en un dataframe. Eso no es necesario, como es una especie de lista cada uno de los elementos de la lista, es decir, cada una de las columnas puede tener un tipo distinto o una clase distinta.
+
+Un atributo particular de los dataframes, es que cada una de las columnas puede tener un nombre, al igual que cada uno de los renglones.
+
+Y estos son conocidos como row.names y col.names.
+
+```{r}
+x<- data.frame(columna1=1:4, columna2=c(T,T,T,F))
+x
+```
+
+```{r}
+nrow(x)
+ncol(x)
+```
+
+# Nombres
+Vector
+```{r}
+x<-11:14
+names(x)
+```
+
+```{r}
+names(x)<-c("1o", "2o", "3o", "4o")
+x
+```
+
+Lista
+```{r}
+mi_lista<-list(3,5,7)
+names(mi_lista)<-c("uno", "dos","tres")
+mi_lista
+```
+
+Matriz
+
+```{r}
+m<-matrix(1:4, nrow=2,ncol=2)
+dimnames(m)=list(c("a","b"), c("h","i"))
+m
+```
+
